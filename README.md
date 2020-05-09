@@ -1,14 +1,22 @@
-# Webuzzes
-### A blog made using 
-* Nuxtjs
-* Apollo Client,
-* GraphCMS
+# webbuzzes
 
+> My solid Nuxt.js project
 
-## Installation
-
-Use the package manager [yarn](https://yarnpkg.com/) to install webuzzes.
+## Build Setup
 
 ```bash
-yarn install
+# install dependencies
+$ yarn install
+
+# serve with hot reload at localhost:3000
+$ yarn dev
+
+# build for production and launch server
+$ yarn build
+$ yarn start
+
+# generate static project
+$ yarn generate
 ```
+
+For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
