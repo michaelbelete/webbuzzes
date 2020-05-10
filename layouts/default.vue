@@ -2,7 +2,7 @@
   <div>
     <navbar />
     <nuxt />
-  </iv>
+  </div>
 </template>
 <script>
 import navbar from '~/components/navbar'
