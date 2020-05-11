@@ -23,6 +23,9 @@ export default {
   ** Global CSS
   */
   css: [
+    '~assets/css/demo.css',
+    '~assets/css/miri-ui-kit-free.css',
+    '~assets/vendors/@mdi/font/css/materialdesignicons.min.css',
   ],
   /*
   ** Plugins to load before mounting the App

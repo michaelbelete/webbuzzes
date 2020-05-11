@@ -3,8 +3,6 @@
     <b-row>
       <b-col></b-col>
       <b-col md="7">
-
-
         <b-card class="mt-4" header="Latest Feeds" v-if="posts">
           <b-card v-for="post in posts" :key="post.id" class="mb-4">
               <b-avatar variant="primary" class="mr-2"></b-avatar>

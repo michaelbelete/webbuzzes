@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <navbar />
+  <div class="bg-gradient-black">
+    <!-- <navbar /> -->
     <nuxt />
   </div>
 </template>
