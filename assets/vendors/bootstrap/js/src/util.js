@@ -5,7 +5,7 @@
  * --------------------------------------------------------------------------
  */
 
-import $ from 'jquery'
+import $ from "jquery"
 
 /**
  * ------------------------------------------------------------------------
@@ -13,13 +13,16 @@ import $ from 'jquery'
  * ------------------------------------------------------------------------
  */
 
-const TRANSITION_END = 'transitionend'
+const TRANSITION_END = "transitionend"
 const MAX_UID = 1000000
 const MILLISECONDS_MULTIPLIER = 1000
 
 // Shoutout AngusCroll (https://goo.gl/pxwQGp)
 function toType(obj) {
-  return {}.toString.call(obj).match(/\s([a-z]+)/i)[1].toLowerCase()
+  return {}.toString
+    .call(obj)
+    .match(/\s([a-z]+)/i)[1]
+    .toLowerCase()
 }
 
 function getSpecialTransitionEndEvent() {
@@ -31,7 +34,7 @@ function getSpecialTransitionEndEvent() {
         return event.handleObj.handler.apply(this, arguments) // eslint-disable-line prefer-rest-params
       }
       return undefined // eslint-disable-line no-undefined
-    }
+    },
   }
 }
 
@@ -63,8 +66,7 @@ function setTransitionEndSupport() {
  */
 
 const Util = {
-
-  TRANSITION_END: 'bsTransitionEnd',
+  TRANSITION_END: "bsTransitionEnd",
 
   getUID(prefix) {
     do {
@@ -75,11 +77,11 @@ const Util = {
   },
 
   getSelectorFromElement(element) {
-    let selector = element.getAttribute('data-target')
+    let selector = element.getAttribute("data-target")
 
-    if (!selector || selector === '#') {
-      const hrefAttr = element.getAttribute('href')
-      selector = hrefAttr && hrefAttr !== '#' ? hrefAttr.trim() : ''
+    if (!selector || selector === "#") {
+      const hrefAttr = element.getAttribute("href")
+      selector = hrefAttr && hrefAttr !== "#" ? hrefAttr.trim() : ""
     }
 
     try {
@@ -95,8 +97,8 @@ const Util = {
     }
 
     // Get transition-duration of the element
-    let transitionDuration = $(element).css('transition-duration')
-    let transitionDelay = $(element).css('transition-delay')
+    let transitionDuration = $(element).css("transition-duration")
+    let transitionDelay = $(element).css("transition-delay")
 
     const floatTransitionDuration = parseFloat(transitionDuration)
     const floatTransitionDelay = parseFloat(transitionDelay)
@@ -107,10 +109,13 @@ const Util = {
     }
 
     // If multiple durations are defined, take the first
-    transitionDuration = transitionDuration.split(',')[0]
-    transitionDelay = transitionDelay.split(',')[0]
+    transitionDuration = transitionDuration.split(",")[0]
+    transitionDelay = transitionDelay.split(",")[0]
 
-    return (parseFloat(transitionDuration) + parseFloat(transitionDelay)) * MILLISECONDS_MULTIPLIER
+    return (
+      (parseFloat(transitionDuration) + parseFloat(transitionDelay)) *
+      MILLISECONDS_MULTIPLIER
+    )
   },
 
   reflow(element) {
@@ -134,15 +139,16 @@ const Util = {
     for (const property in configTypes) {
       if (Object.prototype.hasOwnProperty.call(configTypes, property)) {
         const expectedTypes = configTypes[property]
-        const value         = config[property]
-        const valueType     = value && Util.isElement(value)
-          ? 'element' : toType(value)
+        const value = config[property]
+        const valueType =
+          value && Util.isElement(value) ? "element" : toType(value)
 
         if (!new RegExp(expectedTypes).test(valueType)) {
           throw new Error(
             `${componentName.toUpperCase()}: ` +
-            `Option "${property}" provided type "${valueType}" ` +
-            `but expected type "${expectedTypes}".`)
+              `Option "${property}" provided type "${valueType}" ` +
+              `but expected type "${expectedTypes}".`
+          )
         }
       }
     }
@@ -154,7 +160,7 @@ const Util = {
     }
 
     // Can find the shadow root otherwise it'll return the document
-    if (typeof element.getRootNode === 'function') {
+    if (typeof element.getRootNode === "function") {
       const root = element.getRootNode()
       return root instanceof ShadowRoot ? root : null
     }
@@ -169,7 +175,7 @@ const Util = {
     }
 
     return Util.findShadowRoot(element.parentNode)
-  }
+  },
 }
 
 setTransitionEndSupport()

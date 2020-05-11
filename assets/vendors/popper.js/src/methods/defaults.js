@@ -1,4 +1,4 @@
-import modifiers from '../modifiers/index';
+import modifiers from "../modifiers/index"
 
 /**
  * Default options provided to Popper.js constructor.<br />
@@ -21,7 +21,7 @@ export default {
    * Popper's placement.
    * @prop {Popper.placements} placement='bottom'
    */
-  placement: 'bottom',
+  placement: "bottom",
 
   /**
    * Set this to true if you want popper to position it self in 'fixed' mode
@@ -66,7 +66,7 @@ export default {
    * @prop {modifiers}
    */
   modifiers,
-};
+}
 
 /**
  * @callback onCreate

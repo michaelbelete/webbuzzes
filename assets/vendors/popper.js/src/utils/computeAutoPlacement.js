@@ -1,7 +1,7 @@
-import getBoundaries from '../utils/getBoundaries';
+import getBoundaries from "../utils/getBoundaries"
 
 function getArea({ width, height }) {
-  return width * height;
+  return width * height
 }
 
 /**
@@ -21,8 +21,8 @@ export default function computeAutoPlacement(
   boundariesElement,
   padding = 0
 ) {
-  if (placement.indexOf('auto') === -1) {
-    return placement;
+  if (placement.indexOf("auto") === -1) {
+    return placement
   }
 
   const boundaries = getBoundaries(
@@ -30,7 +30,7 @@ export default function computeAutoPlacement(
     reference,
     padding,
     boundariesElement
-  );
+  )
 
   const rects = {
     top: {
@@ -49,26 +49,25 @@ export default function computeAutoPlacement(
       width: refRect.left - boundaries.left,
       height: boundaries.height,
     },
-  };
+  }
 
   const sortedAreas = Object.keys(rects)
-    .map(key => ({
+    .map((key) => ({
       key,
       ...rects[key],
       area: getArea(rects[key]),
     }))
-    .sort((a, b) => b.area - a.area);
+    .sort((a, b) => b.area - a.area)
 
   const filteredAreas = sortedAreas.filter(
     ({ width, height }) =>
       width >= popper.clientWidth && height >= popper.clientHeight
-  );
+  )
 
-  const computedPlacement = filteredAreas.length > 0
-    ? filteredAreas[0].key
-    : sortedAreas[0].key;
+  const computedPlacement =
+    filteredAreas.length > 0 ? filteredAreas[0].key : sortedAreas[0].key
 
-  const variation = placement.split('-')[1];
+  const variation = placement.split("-")[1]
 
-  return computedPlacement + (variation ? `-${variation}` : '');
+  return computedPlacement + (variation ? `-${variation}` : "")
 }

@@ -6,22 +6,22 @@
  */
 
 const uriAttrs = [
-  'background',
-  'cite',
-  'href',
-  'itemtype',
-  'longdesc',
-  'poster',
-  'src',
-  'xlink:href'
+  "background",
+  "cite",
+  "href",
+  "itemtype",
+  "longdesc",
+  "poster",
+  "src",
+  "xlink:href",
 ]
 
 const ARIA_ATTRIBUTE_PATTERN = /^aria-[\w-]*$/i
 
 export const DefaultWhitelist = {
   // Global attributes allowed on any supplied element below.
-  '*': ['class', 'dir', 'id', 'lang', 'role', ARIA_ATTRIBUTE_PATTERN],
-  a: ['target', 'href', 'title', 'rel'],
+  "*": ["class", "dir", "id", "lang", "role", ARIA_ATTRIBUTE_PATTERN],
+  a: ["target", "href", "title", "rel"],
   area: [],
   b: [],
   br: [],
@@ -37,7 +37,7 @@ export const DefaultWhitelist = {
   h5: [],
   h6: [],
   i: [],
-  img: ['src', 'alt', 'title', 'width', 'height'],
+  img: ["src", "alt", "title", "width", "height"],
   li: [],
   ol: [],
   p: [],
@@ -49,7 +49,7 @@ export const DefaultWhitelist = {
   sup: [],
   strong: [],
   u: [],
-  ul: []
+  ul: [],
 }
 
 /**
@@ -71,13 +71,18 @@ function allowedAttribute(attr, allowedAttributeList) {
 
   if (allowedAttributeList.indexOf(attrName) !== -1) {
     if (uriAttrs.indexOf(attrName) !== -1) {
-      return Boolean(attr.nodeValue.match(SAFE_URL_PATTERN) || attr.nodeValue.match(DATA_URL_PATTERN))
+      return Boolean(
+        attr.nodeValue.match(SAFE_URL_PATTERN) ||
+          attr.nodeValue.match(DATA_URL_PATTERN)
+      )
     }
 
     return true
   }
 
-  const regExp = allowedAttributeList.filter((attrRegex) => attrRegex instanceof RegExp)
+  const regExp = allowedAttributeList.filter(
+    (attrRegex) => attrRegex instanceof RegExp
+  )
 
   // Check if a regular expression validates the attribute.
   for (let i = 0, l = regExp.length; i < l; i++) {
@@ -94,14 +99,14 @@ export function sanitizeHtml(unsafeHtml, whiteList, sanitizeFn) {
     return unsafeHtml
   }
 
-  if (sanitizeFn && typeof sanitizeFn === 'function') {
+  if (sanitizeFn && typeof sanitizeFn === "function") {
     return sanitizeFn(unsafeHtml)
   }
 
   const domParser = new window.DOMParser()
-  const createdDocument = domParser.parseFromString(unsafeHtml, 'text/html')
+  const createdDocument = domParser.parseFromString(unsafeHtml, "text/html")
   const whitelistKeys = Object.keys(whiteList)
-  const elements = [].slice.call(createdDocument.body.querySelectorAll('*'))
+  const elements = [].slice.call(createdDocument.body.querySelectorAll("*"))
 
   for (let i = 0, len = elements.length; i < len; i++) {
     const el = elements[i]
@@ -114,7 +119,10 @@ export function sanitizeHtml(unsafeHtml, whiteList, sanitizeFn) {
     }
 
     const attributeList = [].slice.call(el.attributes)
-    const whitelistedAttributes = [].concat(whiteList['*'] || [], whiteList[elName] || [])
+    const whitelistedAttributes = [].concat(
+      whiteList["*"] || [],
+      whiteList[elName] || []
+    )
 
     attributeList.forEach((attr) => {
       if (!allowedAttribute(attr, whitelistedAttributes)) {

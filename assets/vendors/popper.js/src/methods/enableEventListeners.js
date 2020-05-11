@@ -1,4 +1,4 @@
-import setupEventListeners from '../utils/setupEventListeners';
+import setupEventListeners from "../utils/setupEventListeners"
 
 /**
  * It will add resize/scroll events and start recalculating
@@ -13,6 +13,6 @@ export default function enableEventListeners() {
       this.options,
       this.state,
       this.scheduleUpdate
-    );
+    )
   }
 }

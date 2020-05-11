@@ -1,10 +1,10 @@
-import getScrollParent from './getScrollParent';
-import getWindow from './getWindow';
+import getScrollParent from "./getScrollParent"
+import getWindow from "./getWindow"
 
 function attachToScrollParents(scrollParent, event, callback, scrollParents) {
-  const isBody = scrollParent.nodeName === 'BODY';
-  const target = isBody ? scrollParent.ownerDocument.defaultView : scrollParent;
-  target.addEventListener(event, callback, { passive: true });
+  const isBody = scrollParent.nodeName === "BODY"
+  const target = isBody ? scrollParent.ownerDocument.defaultView : scrollParent
+  target.addEventListener(event, callback, { passive: true })
 
   if (!isBody) {
     attachToScrollParents(
@@ -12,9 +12,9 @@ function attachToScrollParents(scrollParent, event, callback, scrollParents) {
       event,
       callback,
       scrollParents
-    );
+    )
   }
-  scrollParents.push(target);
+  scrollParents.push(target)
 }
 
 /**
@@ -30,19 +30,21 @@ export default function setupEventListeners(
   updateBound
 ) {
   // Resize event listener on window
-  state.updateBound = updateBound;
-  getWindow(reference).addEventListener('resize', state.updateBound, { passive: true });
+  state.updateBound = updateBound
+  getWindow(reference).addEventListener("resize", state.updateBound, {
+    passive: true,
+  })
 
   // Scroll event listener on scroll parents
-  const scrollElement = getScrollParent(reference);
+  const scrollElement = getScrollParent(reference)
   attachToScrollParents(
     scrollElement,
-    'scroll',
+    "scroll",
     state.updateBound,
     state.scrollParents
-  );
-  state.scrollElement = scrollElement;
-  state.eventsEnabled = true;
+  )
+  state.scrollElement = scrollElement
+  state.eventsEnabled = true
 
-  return state;
+  return state
 }

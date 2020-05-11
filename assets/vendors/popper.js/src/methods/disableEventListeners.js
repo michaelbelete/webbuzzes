@@ -1,4 +1,4 @@
-import removeEventListeners from '../utils/removeEventListeners';
+import removeEventListeners from "../utils/removeEventListeners"
 
 /**
  * It will remove resize/scroll events and won't recalculate popper position
@@ -9,7 +9,7 @@ import removeEventListeners from '../utils/removeEventListeners';
  */
 export default function disableEventListeners() {
   if (this.state.eventsEnabled) {
-    cancelAnimationFrame(this.scheduleUpdate);
-    this.state = removeEventListeners(this.reference, this.state);
+    cancelAnimationFrame(this.scheduleUpdate)
+    this.state = removeEventListeners(this.reference, this.state)
   }
 }

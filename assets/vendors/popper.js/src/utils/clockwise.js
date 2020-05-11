@@ -1,7 +1,7 @@
-import placements from '../methods/placements';
+import placements from "../methods/placements"
 
 // Get rid of `auto` `auto-start` and `auto-end`
-const validPlacements = placements.slice(3);
+const validPlacements = placements.slice(3)
 
 /**
  * Given an initial placement, returns all the subsequent placements
@@ -14,9 +14,9 @@ const validPlacements = placements.slice(3);
  * @returns {Array} placements including their variations
  */
 export default function clockwise(placement, counter = false) {
-  const index = validPlacements.indexOf(placement);
+  const index = validPlacements.indexOf(placement)
   const arr = validPlacements
     .slice(index + 1)
-    .concat(validPlacements.slice(0, index));
-  return counter ? arr.reverse() : arr;
+    .concat(validPlacements.slice(0, index))
+  return counter ? arr.reverse() : arr
 }

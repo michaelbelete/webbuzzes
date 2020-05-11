@@ -5,7 +5,7 @@
  * --------------------------------------------------------------------------
  */
 
-import $ from 'jquery'
+import $ from "jquery"
 
 /**
  * ------------------------------------------------------------------------
@@ -13,31 +13,31 @@ import $ from 'jquery'
  * ------------------------------------------------------------------------
  */
 
-const NAME                = 'button'
-const VERSION             = '4.3.1'
-const DATA_KEY            = 'bs.button'
-const EVENT_KEY           = `.${DATA_KEY}`
-const DATA_API_KEY        = '.data-api'
-const JQUERY_NO_CONFLICT  = $.fn[NAME]
+const NAME = "button"
+const VERSION = "4.3.1"
+const DATA_KEY = "bs.button"
+const EVENT_KEY = `.${DATA_KEY}`
+const DATA_API_KEY = ".data-api"
+const JQUERY_NO_CONFLICT = $.fn[NAME]
 
 const ClassName = {
-  ACTIVE : 'active',
-  BUTTON : 'btn',
-  FOCUS  : 'focus'
+  ACTIVE: "active",
+  BUTTON: "btn",
+  FOCUS: "focus",
 }
 
 const Selector = {
-  DATA_TOGGLE_CARROT : '[data-toggle^="button"]',
-  DATA_TOGGLE        : '[data-toggle="buttons"]',
-  INPUT              : 'input:not([type="hidden"])',
-  ACTIVE             : '.active',
-  BUTTON             : '.btn'
+  DATA_TOGGLE_CARROT: '[data-toggle^="button"]',
+  DATA_TOGGLE: '[data-toggle="buttons"]',
+  INPUT: 'input:not([type="hidden"])',
+  ACTIVE: ".active",
+  BUTTON: ".btn",
 }
 
 const Event = {
-  CLICK_DATA_API      : `click${EVENT_KEY}${DATA_API_KEY}`,
-  FOCUS_BLUR_DATA_API : `focus${EVENT_KEY}${DATA_API_KEY} ` +
-                          `blur${EVENT_KEY}${DATA_API_KEY}`
+  CLICK_DATA_API: `click${EVENT_KEY}${DATA_API_KEY}`,
+  FOCUS_BLUR_DATA_API:
+    `focus${EVENT_KEY}${DATA_API_KEY} ` + `blur${EVENT_KEY}${DATA_API_KEY}`,
 }
 
 /**
@@ -62,17 +62,17 @@ class Button {
   toggle() {
     let triggerChangeEvent = true
     let addAriaPressed = true
-    const rootElement = $(this._element).closest(
-      Selector.DATA_TOGGLE
-    )[0]
+    const rootElement = $(this._element).closest(Selector.DATA_TOGGLE)[0]
 
     if (rootElement) {
       const input = this._element.querySelector(Selector.INPUT)
 
       if (input) {
-        if (input.type === 'radio') {
-          if (input.checked &&
-            this._element.classList.contains(ClassName.ACTIVE)) {
+        if (input.type === "radio") {
+          if (
+            input.checked &&
+            this._element.classList.contains(ClassName.ACTIVE)
+          ) {
             triggerChangeEvent = false
           } else {
             const activeElement = rootElement.querySelector(Selector.ACTIVE)
@@ -84,14 +84,16 @@ class Button {
         }
 
         if (triggerChangeEvent) {
-          if (input.hasAttribute('disabled') ||
-            rootElement.hasAttribute('disabled') ||
-            input.classList.contains('disabled') ||
-            rootElement.classList.contains('disabled')) {
+          if (
+            input.hasAttribute("disabled") ||
+            rootElement.hasAttribute("disabled") ||
+            input.classList.contains("disabled") ||
+            rootElement.classList.contains("disabled")
+          ) {
             return
           }
           input.checked = !this._element.classList.contains(ClassName.ACTIVE)
-          $(input).trigger('change')
+          $(input).trigger("change")
         }
 
         input.focus()
@@ -100,8 +102,10 @@ class Button {
     }
 
     if (addAriaPressed) {
-      this._element.setAttribute('aria-pressed',
-        !this._element.classList.contains(ClassName.ACTIVE))
+      this._element.setAttribute(
+        "aria-pressed",
+        !this._element.classList.contains(ClassName.ACTIVE)
+      )
     }
 
     if (triggerChangeEvent) {
@@ -125,7 +129,7 @@ class Button {
         $(this).data(DATA_KEY, data)
       }
 
-      if (config === 'toggle') {
+      if (config === "toggle") {
         data[config]()
       }
     })
@@ -148,7 +152,7 @@ $(document)
       button = $(button).closest(Selector.BUTTON)
     }
 
-    Button._jQueryInterface.call($(button), 'toggle')
+    Button._jQueryInterface.call($(button), "toggle")
   })
   .on(Event.FOCUS_BLUR_DATA_API, Selector.DATA_TOGGLE_CARROT, (event) => {
     const button = $(event.target).closest(Selector.BUTTON)[0]

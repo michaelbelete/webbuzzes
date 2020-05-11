@@ -10,5 +10,5 @@ export default function getClientRect(offsets) {
     ...offsets,
     right: offsets.left + offsets.width,
     bottom: offsets.top + offsets.height,
-  };
+  }
 }

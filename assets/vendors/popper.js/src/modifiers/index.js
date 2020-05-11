@@ -1,13 +1,13 @@
-import applyStyle, { applyStyleOnLoad } from './applyStyle';
-import computeStyle from './computeStyle';
-import arrow from './arrow';
-import flip from './flip';
-import keepTogether from './keepTogether';
-import offset from './offset';
-import preventOverflow from './preventOverflow';
-import shift from './shift';
-import hide from './hide';
-import inner from './inner';
+import applyStyle, { applyStyleOnLoad } from "./applyStyle"
+import computeStyle from "./computeStyle"
+import arrow from "./arrow"
+import flip from "./flip"
+import keepTogether from "./keepTogether"
+import offset from "./offset"
+import preventOverflow from "./preventOverflow"
+import shift from "./shift"
+import hide from "./hide"
+import inner from "./inner"
 
 /**
  * Modifier function, each modifier can have a function of this type assigned
@@ -128,7 +128,7 @@ export default {
      * Popper will try to prevent overflow following these priorities by default,
      * then, it could overflow on the left and on top of the `boundariesElement`
      */
-    priority: ['left', 'right', 'top', 'bottom'],
+    priority: ["left", "right", "top", "bottom"],
     /**
      * @prop {number} padding=5
      * Amount of pixel used to define a minimum distance between the boundaries
@@ -141,7 +141,7 @@ export default {
      * Boundaries used by the modifier. Can be `scrollParent`, `window`,
      * `viewport` or any DOM element.
      */
-    boundariesElement: 'scrollParent',
+    boundariesElement: "scrollParent",
   },
 
   /**
@@ -180,7 +180,7 @@ export default {
     /** @prop {ModifierFn} */
     fn: arrow,
     /** @prop {String|HTMLElement} element='[x-arrow]' - Selector or node used as arrow */
-    element: '[x-arrow]',
+    element: "[x-arrow]",
   },
 
   /**
@@ -207,7 +207,7 @@ export default {
      * `flip`, `clockwise`, `counterclockwise` or an array with a list of valid
      * placements (with optional variations)
      */
-    behavior: 'flip',
+    behavior: "flip",
     /**
      * @prop {number} padding=5
      * The popper will flip if it hits the edges of the `boundariesElement`
@@ -219,7 +219,7 @@ export default {
      * The popper will never be placed outside of the defined boundaries
      * (except if `keepTogether` is enabled)
      */
-    boundariesElement: 'viewport',
+    boundariesElement: "viewport",
     /**
      * @prop {Boolean} flipVariations=false
      * The popper will switch placement variation between `-start` and `-end` when
@@ -306,13 +306,13 @@ export default {
      * Where to anchor the X axis (`bottom` or `top`). AKA X offset origin.
      * Change this if your popper should grow in a direction different from `bottom`
      */
-    x: 'bottom',
+    x: "bottom",
     /**
      * @prop {string} [x='left']
      * Where to anchor the Y axis (`left` or `right`). AKA Y offset origin.
      * Change this if your popper should grow in a direction different from `right`
      */
-    y: 'right',
+    y: "right",
   },
 
   /**
@@ -347,7 +347,7 @@ export default {
      */
     gpuAcceleration: undefined,
   },
-};
+}
 
 /**
  * The `dataObject` is an object containing all the information used by Popper.js.

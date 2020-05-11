@@ -6,5 +6,7 @@
  * @returns {Element} parent
  */
 export default function getReferenceNode(reference) {
-  return reference && reference.referenceNode ? reference.referenceNode : reference;
+  return reference && reference.referenceNode
+    ? reference.referenceNode
+    : reference
 }

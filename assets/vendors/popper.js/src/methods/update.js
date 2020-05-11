@@ -1,7 +1,7 @@
-import computeAutoPlacement from '../utils/computeAutoPlacement';
-import getReferenceOffsets from '../utils/getReferenceOffsets';
-import getPopperOffsets from '../utils/getPopperOffsets';
-import runModifiers from '../utils/runModifiers';
+import computeAutoPlacement from "../utils/computeAutoPlacement"
+import getReferenceOffsets from "../utils/getReferenceOffsets"
+import getPopperOffsets from "../utils/getPopperOffsets"
+import runModifiers from "../utils/runModifiers"
 
 /**
  * Updates the position of the popper, computing the new offsets and applying
@@ -13,7 +13,7 @@ import runModifiers from '../utils/runModifiers';
 export default function update() {
   // if popper is destroyed, don't perform any further update
   if (this.state.isDestroyed) {
-    return;
+    return
   }
 
   let data = {
@@ -23,7 +23,7 @@ export default function update() {
     attributes: {},
     flipped: false,
     offsets: {},
-  };
+  }
 
   // compute reference element offsets
   data.offsets.reference = getReferenceOffsets(
@@ -31,7 +31,7 @@ export default function update() {
     this.popper,
     this.reference,
     this.options.positionFixed
-  );
+  )
 
   // compute auto placement, store placement inside the data object,
   // modifiers will be able to edit `placement` if needed
@@ -43,33 +43,33 @@ export default function update() {
     this.reference,
     this.options.modifiers.flip.boundariesElement,
     this.options.modifiers.flip.padding
-  );
+  )
 
   // store the computed placement inside `originalPlacement`
-  data.originalPlacement = data.placement;
+  data.originalPlacement = data.placement
 
-  data.positionFixed = this.options.positionFixed;
+  data.positionFixed = this.options.positionFixed
 
   // compute the popper offsets
   data.offsets.popper = getPopperOffsets(
     this.popper,
     data.offsets.reference,
     data.placement
-  );
+  )
 
   data.offsets.popper.position = this.options.positionFixed
-    ? 'fixed'
-    : 'absolute';
+    ? "fixed"
+    : "absolute"
 
   // run the modifiers
-  data = runModifiers(this.modifiers, data);
+  data = runModifiers(this.modifiers, data)
 
   // the first `update` will call `onCreate` callback
   // the other ones will call `onUpdate` callback
   if (!this.state.isCreated) {
-    this.state.isCreated = true;
-    this.options.onCreate(data);
+    this.state.isCreated = true
+    this.options.onCreate(data)
   } else {
-    this.options.onUpdate(data);
+    this.options.onUpdate(data)
   }
 }
