@@ -1,9 +1,9 @@
 <template>
   <div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2">
-      <a class="navbar-brand" href="#"
-        ><img src="assets/images/logo.svg" alt="logo"
-      /></a>
+      <a class="navbar-brand" href="#">
+        Webuzzes
+      </a>
       <button
         class="navbar-toggler"
         type="button"
@@ -19,21 +19,14 @@
       <div id="navbarSupportedContent2" class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <b-nav-item to="/" exact exact-active-class="active">
+            <nuxt-link to="/" class="nav-link">
               Home
-            </b-nav-item>
+            </nuxt-link>
           </li>
           <li class="nav-item">
-            <b-nav-item to="/admin" exact exact-active-class="active">
-              Home
-            </b-nav-item>
-            >
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Pages</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Elements</a>
+            <nuxt-link to="/admin" class="nav-link">
+              Admin
+            </nuxt-link>
           </li>
         </ul>
         <ul class="navbar-nav">

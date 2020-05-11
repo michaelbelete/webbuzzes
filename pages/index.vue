@@ -3,7 +3,11 @@
     <b-row>
       <b-col />
       <b-col md="7">
-        <b-card v-if="posts" class="mt-4" header="Latest Feeds">
+         <b-card v-if="posts" class="mt-4">
+
+         </b-card>
+        <b-card v-if="posts" class="mt-4">
+          <h4 class="mb-2 border-bottom">Recent Posts</h4>
           <b-card v-for="post in posts" :key="post.id" class="mb-4">
             <b-avatar variant="primary" class="mr-2" />
             <span v-if="post.blogger" class="mr-auto">{{
@@ -38,25 +42,9 @@
 </template>
 
 <script>
-import gql from "graphql-tag"
+import { fetchAllPosts,postCount } from "../apollo/graphql/queries"
 
 const perPage = 2
-
-const posts = gql`
-  query posts($first: Int!, $skip: Int!) {
-    posts(first: $first, skip: $skip) {
-      id
-      title
-      body
-      createdAt
-      updatedAt
-      blogger {
-        username
-        interest
-      }
-    }
-  }
-`
 
 export default {
   name: "Homepage",
@@ -70,22 +58,14 @@ export default {
   apollo: {
     $loadingKey: "loading",
     posts: {
-      query: posts,
+      query: fetchAllPosts,
       variables: {
         skip: 0,
         first: perPage,
       },
     },
     postCount: {
-      query: gql`
-        {
-          postsConnection {
-            aggregate {
-              count
-            }
-          }
-        }
-      `,
+      query: postCount,
       update: ({ postsConnection }) => postsConnection.aggregate.count,
     },
   },
