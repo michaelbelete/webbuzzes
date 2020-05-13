@@ -43,11 +43,26 @@ export default {
     // Doc: https://bootstrap-vue.js.org
     "bootstrap-vue/nuxt",
     "@nuxtjs/apollo",
+    "@nuxtjs/toast",
   ],
   apollo: {
     clientConfigs: {
       default: "~/apollo/client-configs/default.js",
     },
+  },
+
+  toast: {
+    position: "top-center",
+    register: [
+      // Register custom toasts
+      {
+        name: "my-error",
+        message: "Oops...Something went wrong",
+        options: {
+          type: "error",
+        },
+      },
+    ],
   },
   /*
    ** Build configuration

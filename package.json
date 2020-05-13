@@ -14,7 +14,9 @@
     "lintfix": "eslint --fix --ext .js,.vue --ignore-path .gitignore ."
   },
   "dependencies": {
+    "@johmun/vue-tags-input": "^2.1.0",
     "@nuxtjs/apollo": "^4.0.0-rc19",
+    "@nuxtjs/toast": "^3.3.0",
     "apollo-cache-inmemory": "^1.6.5",
     "apollo-link-http": "^1.5.17",
     "bootstrap": "^4.1.3",

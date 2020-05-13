@@ -18,16 +18,11 @@
 
       <div id="navbarSupportedContent2" class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
+          <!-- <li class="nav-item active">
             <nuxt-link to="/" class="nav-link">
               Home
             </nuxt-link>
-          </li>
-          <li class="nav-item">
-            <nuxt-link to="/admin" class="nav-link">
-              Admin
-            </nuxt-link>
-          </li>
+          </li> -->
         </ul>
         <ul class="navbar-nav">
           <div class="input-group input-group-pill">
@@ -36,8 +31,7 @@
               type="text"
               class="form-control"
               name="iconRightInput"
-              placeholder="right with icon"
-              value="right with icon"
+              placeholder="Search Post here"
             />
             <div class="input-group-append">
               <span class="mdi mdi-star-circle input-group-text" />

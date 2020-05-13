@@ -3,11 +3,16 @@
     Developed by BootstrapDash(https://www.bootstrapdash.com/)
 */
 body {
-  font-size: 13px; }
+  font-size: 13px;
+  overflow-x: hidden;
+}
 
 .bg-gradient-black {
   background-image: -webkit-gradient(linear, left top, left bottom, from(#e4e5e7), to(#252631));
-  background-image: linear-gradient(#e4e5e7, #252631); }
+  background-image: linear-gradient(#f3f3f3, #8a8a8a);
+  min-height: 610px;
+}
+
 
 .fixed-on-scroll.fixed-on-top .nav-link.icon-fb:hover {
   color: #444bf8; }

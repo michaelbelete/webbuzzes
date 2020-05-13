@@ -40,13 +40,50 @@ export const fetchOnePost = gql`
   }
 `
 
+export const fetchOneBlogger = gql`
+  query blogger($id: String!) {
+    blogger(where: { id: $id }) {
+      id
+      username
+      password
+      interest
+    }
+  }
+`
+
+export const login = gql`
+  query blogger($username: String!, $password: String!) {
+    blogger(where: { username: $username, password: $password }) {
+      id
+    }
+  }
+`
 //create
 export const addPost = gql`
-  mutation($title: String!, $body: String!) {
-    createPost(data: { title: $title, body: $body }) {
+  mutation($title: String!, $body: String!, $bloggerId: String!) {
+    createPost(
+      data: {
+        title: $title
+        body: $body
+        blogger: { connect: { id: $bloggerId } }
+      }
+    ) {
       id
       title
       body
+      blogger {
+        username
+      }
+    }
+  }
+`
+
+export const addBlogger = gql`
+  mutation($username: String!, $password: String!, $interest: String!) {
+    createBlogger(
+      data: { username: $username, password: $password, interest: $interest }
+    ) {
+      id
     }
   }
 `
