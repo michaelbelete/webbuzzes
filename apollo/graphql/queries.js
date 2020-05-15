@@ -26,23 +26,6 @@ export const POST_COUNT = gql`
   }
 `
 
-export const CREATE_POST = gql`
-  mutation($ip: String!, $title: String!, $body: String!, $id: ID!) {
-    createPost(
-      data: {
-        ip: $ip
-        title: $title
-        body: $body
-        category: { connect: { id: $id } }
-      }
-    ) {
-      id
-      title
-      body
-    }
-  }
-`
-
 export const SHOW_CATEGORY = gql`
   {
     categories {

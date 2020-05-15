@@ -58,6 +58,7 @@
 
 <script>
 import { SHOW_POST } from "@/apollo/graphql/queries"
+import { CREATE_COMMENT } from "@/apollo/graphql/mutations"
 
 export default {
   name: "PostPage",
@@ -78,8 +79,23 @@ export default {
     },
   },
   methods: {
-    createComment() {
-      alert("hello, world")
+    createComment(evt) {
+      evt.preventDefault()
+      this.$apollo
+        .mutate({
+          mutation: CREATE_COMMENT,
+          variables: {
+            ip: "192.168.23.1",
+            comment: this.comment,
+            postid: this.$route.params.id,
+          },
+        })
+        .then((response) => {
+          this.$toast.success(JSON.stringify(response))
+        })
+        .catch((error) => {
+          this.$toast.error(error)
+        })
     },
   },
 }
