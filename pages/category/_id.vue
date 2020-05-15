@@ -17,12 +17,11 @@
             Loading...
           </h2>
           <div v-else>
-            <b-card v-for="post in category.post" :key="post.id">
-              <nuxt-link to="/post/{}" class="mr-3 text-dark">
+            <b-card v-for="post in category.post" :key="post.id" class="mb-4">
+              <nuxt-link :to="`/post/${post.id}`" class="mr-3 text-dark">
                 <h1>{{ post.title }}</h1>
-                <p>{{ post.body }}</p>
+                <p>{{ cutText(post.body) }}</p>
               </nuxt-link>
-              {{ id }}
             </b-card>
           </div>
         </b-card>
@@ -51,6 +50,11 @@ export default {
           id: this.$route.params.id,
         }
       },
+    },
+  },
+  methods: {
+    cutText(text) {
+      return text.substr(0, 150)
     },
   },
 }
