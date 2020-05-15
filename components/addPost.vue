@@ -1,7 +1,6 @@
 <template>
   <b-card>
     <b-form @submit="createPost">
-      {{ form }}
       <b-form-group id="input-group-title" label="Title" label-for="title">
         <b-form-input id="title" v-model="form.title" size="sm" required />
       </b-form-group>
@@ -44,7 +43,7 @@
 </template>
 
 <script>
-import { SHOW_CATEGORY } from "@/apollo/graphql/queries"
+import { SHOW_CATEGORY, ALL_POSTS } from "@/apollo/graphql/queries"
 import { CREATE_POST } from "@/apollo/graphql/mutations"
 
 import axios from "axios"
@@ -82,10 +81,20 @@ export default {
             body: this.form.body,
             categoryid: this.form.category,
           },
-          update: (store, { data: { update_posts } }) => {
-            if (update_posts.affected_rows) {
-              console.log(update_posts)
-            }
+          update: (store, { data: { createPost } }) => {
+            const data = store.readQuery({ query: ALL_POSTS })
+            data.posts.push(createPost)
+            store.writeQuery({ query: ALL_POSTS, data })
+          },
+          optimisticResponse: {
+            __typename: "Mutation",
+            createPost: {
+              __typename: "Post",
+              ip: this.form.ip,
+              title: this.form.title,
+              body: this.form.body,
+              categoryid: this.form.category,
+            },
           },
         })
         .then((response) => {
