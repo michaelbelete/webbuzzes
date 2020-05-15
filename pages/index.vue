@@ -1,177 +1,214 @@
 <template>
-  <div class="mb-4">
+  <div>
     <b-row>
-      <b-col>&nbsp;</b-col>
-      <b-col cols="4">
-        <b-card class="mt-4">
-          <b-tabs content-class="mt-3" justified pills>
-            <b-tab title="Login" active>
-              <b-form @submit="login">
-                <b-form-group
-                  id="input-group-username"
-                  label-for="username"
-                  label="Username"
-                >
-                  <b-form-input
-                    id="username"
-                    v-model="form.username"
-                    type="text"
-                    placeholder="Enter Your Username"
-                    required
-                  />
-                </b-form-group>
-                <b-form-group
-                  id="input-group-password"
-                  label-for="password"
-                  label="Password"
-                >
-                  <b-form-input
-                    id="password"
-                    v-model="form.password"
-                    type="password"
-                    placeholder="Enter Your Password"
-                    required
-                  />
-                </b-form-group>
-
-                <b-button
-                  type="submit"
-                  width="100%"
-                  variant="outline-primary"
-                  block
-                >
-                  Login
-                </b-button>
-              </b-form>
-            </b-tab>
-            <b-tab title="Signup">
-              <b-form @submit="signup">
-                <b-form-group
-                  id="input-group-1"
-                  label-for="username"
-                  label="Username"
-                >
-                  <b-form-input
-                    id="username"
-                    v-model="form.username"
-                    type="text"
-                    placeholder="Enter Your Username"
-                    required
-                  />
-                </b-form-group>
-                <b-form-group
-                  id="input-group-2"
-                  label-for="password"
-                  label="Password"
-                >
-                  <b-form-input
-                    id="password"
-                    v-model="form.password"
-                    type="password"
-                    placeholder="Enter Your Password"
-                    required
-                  />
-                </b-form-group>
-                <b-form-group
-                  id="input-group-3"
-                  label-for="interest"
-                  label="Interest"
-                >
-                  <b-form-input
-                    id="interest"
-                    v-model="form.interest"
-                    type="text"
-                    placeholder="Enter Your Interests"
-                    required
-                  />
-                </b-form-group>
-                <b-button
-                  type="submit"
-                  width="100%"
-                  variant="outline-primary"
-                  block
-                >
-                  Signup
-                </b-button>
-              </b-form>
-            </b-tab>
-          </b-tabs>
+      <b-col md="1" />
+      <b-col md="3">
+        <b-card header="Post Categories">
+          <b-list-group>
+            <b-list-group-item
+              v-for="category in categories"
+              :key="category.id"
+              class="border-bottom"
+            >
+              <nuxt-link :to="`/category/${category.id}`">
+                {{ category.name }}
+              </nuxt-link>
+            </b-list-group-item>
+          </b-list-group>
         </b-card>
       </b-col>
-      <b-col>&nbsp;</b-col>
+      <b-col md="5">
+        <b-card>
+          <b-form @submit="createPost">
+            <b-form-group
+              id="input-group-title"
+              label="Title"
+              label-for="title"
+            >
+              <b-form-input
+                id="title"
+                v-model="form.title"
+                size="sm"
+                required
+              />
+            </b-form-group>
+            <b-form-group
+              id="input-group-category"
+              label="Category"
+              label-for="category"
+            >
+              <select
+                id="category"
+                v-model="form.category"
+                class="input-sm form-control-sm form-control"
+                required="required"
+              >
+                <option
+                  v-for="category in categories"
+                  :key="category.id"
+                  :value="category.id"
+                >
+                  {{ category.name }}
+                </option>
+              </select>
+            </b-form-group>
+            <b-form-group id="input-group-body" label="Body" label-for="body">
+              <b-form-textarea
+                id="body"
+                v-model="form.body"
+                no-resize
+                rows="3"
+                size="sm"
+                placeholder="anything buzzing you..."
+                required
+              />
+            </b-form-group>
+            <b-button type="submit" variant="outline-primary" block>
+              Post
+            </b-button>
+          </b-form>
+        </b-card>
+        <b-card class="mt-4" header="Recent Posts">
+          <div v-if="error">
+            {{ error }}
+          </div>
+          <div v-if="posts">
+            <div v-for="post in posts" :key="post.id">
+              <nuxt-link :to="`/post/${post.id}`">
+                <b-card class="mb-4">
+                  <h2>{{ post.title }}</h2>
+                  <p class="text-dark">
+                    {{ cutText(post.body) }} ...
+                    <em class="btn btn-link">
+                      more
+                    </em>
+                  </p>
+                  <small class="float-right">{{ post.category.name }}</small>
+                </b-card>
+              </nuxt-link>
+            </div>
+            <b-button
+              v-if="postCount && postCount > posts.length"
+              variant="outline-primary"
+              block
+              class="mt-4"
+              size="sm"
+              @click="loadMorePosts"
+            >
+              {{ loading ? "loading more posts..." : "Show More" }}
+            </b-button>
+          </div>
+          <div v-else class="text-center">
+            Loading...
+          </div>
+        </b-card>
+      </b-col>
+      <b-col md="2" />
     </b-row>
   </div>
 </template>
 
 <script>
-import { addBlogger, login } from "@/apollo/graphql/queries"
+import {
+  ALL_POSTS,
+  CREATE_POST,
+  SHOW_CATEGORY,
+  POST_COUNT,
+} from "@/apollo/graphql/queries"
+
+import axios from "axios"
+
+const perPage = 2
 
 export default {
+  name: "Homepage",
   data() {
     return {
+      loading: 0,
+      error: null,
+      posts: [],
+      categories: [],
       form: {
-        username: null,
-        password: null,
-        interest: null,
+        title: null,
+        body: null,
+        category: null,
+        ip: null,
       },
     }
   },
-  mounted() {
-    this.createSession("0")
+  apollo: {
+    $loadingKey: "loading",
+    posts: {
+      query: ALL_POSTS,
+      variables: {
+        skip: 0,
+        first: perPage,
+      },
+      error(error) {
+        this.error = JSON.stringify(error.message)
+      },
+    },
+    categories: SHOW_CATEGORY,
+    postCount: {
+      query: POST_COUNT,
+      update: ({ postsConnection }) => postsConnection.aggregate.count,
+    },
+  },
+  created() {
+    this.showIp()
   },
   methods: {
-    createSession(value) {
-      sessionStorage.setItem("bloggerid", value)
+    cutText(text) {
+      return text.substr(0, 150)
     },
-    login(evt) {
+    createPost(evt) {
       evt.preventDefault()
-      this.$apollo
-        .query({
-          query: login,
-          variables: {
-            username: this.form.username,
-            password: this.form.password,
-          },
-        })
-        .then((response) => {
-          if (response.data === null) {
-            this.$toast.error("Your username or password is incorrect")
-          } else {
-            this.createSession(response.data.id)
-            this.$router.replace("/admin")
-          }
-        })
-        .error((error) => {
-          this.$toast.error(error)
-        })
-    },
-    signup(evt) {
-      evt.preventDefault()
+      this.$toast.show("starting post")
       this.$apollo
         .mutate({
-          mutation: addBlogger,
+          mutation: CREATE_POST,
           variables: {
-            username: this.form.username,
-            password: this.form.password,
-            interest: this.form.interest,
+            ip: this.form.ip,
+            title: this.form.title,
+            body: this.form.body,
+            categoryid: this.form.category,
           },
         })
         .then((response) => {
-          // localStorage.setItem("bloggerid", response.data.createBlogger.id)
-          this.createSession(response.data.createBlogger.id)
-          this.$toast.success("Signed in")
-          this.$router.replace("/admin/")
+          this.$toast.show(response.data)
+          this.$toast.success("Posted")
         })
         .catch((error) => {
-          this.$toast.show("Can't login")
           this.$toast.show(error)
+          this.$toast.error("Posting Failed...")
         })
-      // this.$apollo.mutate({
-      //   query: addBlogger
-      // })
+    },
+    loadMorePosts() {
+      this.$apollo.queries.posts.fetchMore({
+        variables: {
+          skip: this.posts.length,
+        },
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          if (!fetchMoreResult) {
+            return previousResult
+          }
+          return Object.assign({}, previousResult, {
+            posts: [...previousResult.posts, ...fetchMoreResult.posts],
+          })
+        },
+      })
+    },
+    showIp() {
+      axios.get("https://api.ipify.org?format=json").then((response) => {
+        this.form.ip = response.data.ip
+      })
     },
   },
 }
 </script>
 
-<style></style>
+<style scoped>
+a {
+  text-decoration: none;
+}
+</style>

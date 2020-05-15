@@ -1,22 +1,22 @@
 import gql from "graphql-tag"
 
-export const fetchAllPosts = gql`
+export const ALL_POSTS = gql`
   query posts($first: Int!, $skip: Int!) {
     posts(first: $first, skip: $skip) {
       id
+      ip
       title
       body
-      createdAt
-      updatedAt
-      blogger {
-        username
-        interest
+      category {
+        id
+        name
       }
+      createdAt
     }
   }
 `
 
-export const postCount = gql`
+export const POST_COUNT = gql`
   {
     postsConnection {
       aggregate {
@@ -26,73 +26,57 @@ export const postCount = gql`
   }
 `
 
-export const fetchOnePost = gql`
-  query post($id: String!) {
-    post(where: { id: $id }) {
-      id
-      title
-      body
-      blogger {
-        id
-        username
-      }
-    }
-  }
-`
-
-export const fetchOneBlogger = gql`
-  query blogger($id: String!) {
-    blogger(where: { id: $id }) {
-      id
-      username
-      password
-      interest
-    }
-  }
-`
-
-export const login = gql`
-  query blogger($username: String!, $password: String!) {
-    blogger(where: { username: $username, password: $password }) {
-      id
-    }
-  }
-`
-//create
-export const addPost = gql`
-  mutation($title: String!, $body: String!, $bloggerId: String!) {
+export const CREATE_POST = gql`
+  mutation($ip: String!, $title: String!, $body: String!, $id: ID!) {
     createPost(
       data: {
+        ip: $ip
         title: $title
         body: $body
-        blogger: { connect: { id: $bloggerId } }
+        category: { connect: { id: $id } }
       }
     ) {
       id
       title
       body
-      blogger {
-        username
+    }
+  }
+`
+
+export const SHOW_CATEGORY = gql`
+  {
+    categories {
+      id
+      name
+    }
+  }
+`
+
+export const SHOW_POST = gql`
+  query post($id: ID!) {
+    post(where: { id: $id }) {
+      id
+      ip
+      title
+      body
+      comment {
+        ip
+        comment
       }
     }
   }
 `
 
-export const addBlogger = gql`
-  mutation($username: String!, $password: String!, $interest: String!) {
-    createBlogger(
-      data: { username: $username, password: $password, interest: $interest }
-    ) {
+export const SHOW_ONE_CATEGORY = gql`
+  query category($id: ID!) {
+    category(where: { id: $id }) {
       id
+      name
+      post {
+        id
+        title
+        body
+      }
     }
   }
 `
-//update
-export const deletePost = gql`
-  mutation($id: String!) {
-    deletePost(where: { id: $id }) {
-      id
-    }
-  }
-`
-//delete

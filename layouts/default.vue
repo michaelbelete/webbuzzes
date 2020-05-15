@@ -1,7 +1,9 @@
 <template>
   <div class="bg-gradient-black DejaVue">
     <navbar />
-    <nuxt />
+    <div class="container pb-4">
+      <nuxt />
+    </div>
   </div>
 </template>
 <script>
