@@ -1,9 +1,9 @@
 <template>
   <div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2">
-      <a class="navbar-brand" href="#">
+      <nuxt-link class="navbar-brand" to="/">
         Webuzzes
-      </a>
+      </nuxt-link>
       <button
         class="navbar-toggler"
         type="button"

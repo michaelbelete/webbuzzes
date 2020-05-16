@@ -4,9 +4,12 @@
       <b-col md="3" />
       <b-col md="6">
         <b-card>
-          <h2 v-if="loading > 0">
+          <h4 v-if="$apollo.queries.post.loading">
             Loading...
-          </h2>
+          </h4>
+          <h4 v-if="error">
+            {{ error }}
+          </h4>
           <div v-else>
             <div class="border-bottom pb-3">
               <nuxt-link to="/">
@@ -66,6 +69,7 @@ export default {
     loading: 0,
     post: "",
     comment: null,
+    error: null,
   }),
   apollo: {
     $loadingKey: "loading",
@@ -75,6 +79,10 @@ export default {
         return {
           id: this.$route.params.id,
         }
+      },
+      fetchPolicy: "cache-first",
+      error(error) {
+        this.error = JSON.stringify(error.message)
       },
     },
   },

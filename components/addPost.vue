@@ -82,9 +82,36 @@ export default {
             categoryid: this.form.category,
           },
           update: (store, { data: { createPost } }) => {
-            const data = store.readQuery({ query: ALL_POSTS })
-            data.posts.push(createPost)
-            store.writeQuery({ query: ALL_POSTS, data })
+            // console.log(createPost)
+            try {
+              const ALL_POST_QUERY = {
+                query: ALL_POSTS,
+                variables: {
+                  skip: 0,
+                  first: 2,
+                },
+              }
+
+              let { posts } = store.readQuery({ query: ALL_POST_QUERY })
+
+              posts.push(createPost)
+
+              store.writeQuery({
+                query: ALL_POST_QUERY,
+                data: {
+                  posts: posts,
+                },
+              })
+            } catch (error) {
+              console.log(error)
+            }
+            // const data = store.readQuery(query)
+
+            // store.writeQuery({ query, data })
+            // console.log(data)
+            // const data = store.readQuery({ query: ALL_POSTS })
+            // data.posts.push(createPost)
+            // store.writeQuery({ query: ALL_POSTS, data })
           },
           optimisticResponse: {
             __typename: "Mutation",
@@ -98,13 +125,25 @@ export default {
           },
         })
         .then((response) => {
-          this.$toast.show(response.data)
+          console.log(response)
           this.$toast.success("Posted")
         })
         .catch((error) => {
           this.$toast.show(error)
           this.$toast.error("Posting Failed...")
         })
+    },
+    updateAfterPost(store, createPost) {
+      const query = {
+        query: ALL_POSTS,
+        variables: {
+          skip: 0,
+          first: 2,
+        },
+      }
+
+      const data = store.readQuery(query)
+      store.writeQuery({ ...query, data })
     },
     showIp() {
       axios.get("https://api.ipify.org?format=json").then((response) => {

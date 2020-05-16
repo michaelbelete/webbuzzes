@@ -4,6 +4,12 @@
       <b-col md="1" />
       <b-col md="3">
         <b-card header="Post Categories">
+          <div v-if="$apollo.queries.categories.loading" class="text-center">
+            loading catagories...
+          </div>
+          <div v-if="cError" class="text-center">
+            {{ cError }}
+          </div>
           <b-list-group>
             <b-list-group-item
               v-for="category in categories"
@@ -21,10 +27,14 @@
         <!-- // add post here -->
         <add-post />
         <b-card class="mt-4" header="Recent Posts">
-          <div v-if="error">
-            {{ error }}
+          <div v-if="pError">
+            {{ pError }}
           </div>
-          <div v-if="posts">
+
+          <div v-if="$apollo.queries.posts.loading" class="text-center">
+            Loading posts...
+          </div>
+          <div v-else>
             <div v-for="post in posts" :key="post.id">
               <nuxt-link :to="`/post/${post.id}`">
                 <b-card class="mb-4">
@@ -50,9 +60,6 @@
               {{ loading ? "loading more posts..." : "Show More" }}
             </b-button>
           </div>
-          <div v-else class="text-center">
-            Loading...
-          </div>
         </b-card>
       </b-col>
       <b-col md="2" />
@@ -74,7 +81,8 @@ export default {
   data() {
     return {
       loading: 0,
-      error: null,
+      pError: null,
+      cError: null,
       posts: [],
       categories: [],
     }
@@ -87,11 +95,18 @@ export default {
         skip: 0,
         first: perPage,
       },
+      fetchPolicy: "cache-first",
       error(error) {
-        this.error = JSON.stringify(error.message)
+        this.pError = JSON.stringify(error.message)
       },
     },
-    categories: SHOW_CATEGORY,
+    categories: {
+      query: SHOW_CATEGORY,
+      fetchPolicy: "cache-first",
+      error(error) {
+        this.cError = JSON.stringify(error.message)
+      },
+    },
     postCount: {
       query: POST_COUNT,
       update: ({ postsConnection }) => postsConnection.aggregate.count,

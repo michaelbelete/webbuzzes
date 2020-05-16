@@ -2,7 +2,7 @@ import gql from "graphql-tag"
 
 export const ALL_POSTS = gql`
   query posts($first: Int!, $skip: Int!) {
-    posts(first: $first, skip: $skip) {
+    posts(first: $first, skip: $skip, orderBy: createdAt_DESC) {
       id
       ip
       title

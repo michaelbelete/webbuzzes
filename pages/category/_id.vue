@@ -45,6 +45,7 @@ export default {
     $loadingKey: "loading",
     category: {
       query: SHOW_ONE_CATEGORY,
+      fetchPolicy: "cache-first",
       variables() {
         return {
           id: this.$route.params.id,
