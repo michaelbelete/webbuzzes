@@ -24,7 +24,7 @@
     "bootstrap-vue": "^2.0.0",
     "core-js": "3",
     "graphql-tag": "^2.10.3",
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.12.2"
   },
   "devDependencies": {
     "@babel/runtime-corejs3": "^7.9.6",
